@@ -1,0 +1,2 @@
+defmodule Slackabot do
+end
