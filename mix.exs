@@ -12,7 +12,7 @@ defmodule Slackabot.Mixfile do
   #
   # Type `mix help compile.app` for more information
   def application do
-    [applications: [:logger]]
+    [applications: [:httpotion, :logger]]
   end
 
   # Dependencies can be Hex packages:
@@ -26,7 +26,10 @@ defmodule Slackabot.Mixfile do
   # Type `mix help deps` for more examples and options
   defp deps do
     [
-      {:socket, "0.2.8"}
+      {:ibrowse, github: "cmullaparthi/ibrowse", tag: "v4.1.2"},
+      {:httpotion, "~> 2.1.0"},
+      {:jsx, "~> 2.6.2"},
+      {:connection, "1.0.0-rc.1"}
     ]
   end
 end
