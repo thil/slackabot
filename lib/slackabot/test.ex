@@ -1,6 +1,20 @@
 defmodule Slackabot.Test do
   def test do
-    url = String.to_char_list(Slackabot.Slack.connect_url)
-    :gen_tcp.connect(url, 443, [:binary, packet: :line, active: false, reuseaddr: true])
+    url = Slackabot.Slack.connect_url
+    IO.inspect url
+    :crypto.start
+    :ssl.start
+    {:ok, sock} = Slackabot.WebsocketClient.start_link(self, url)
+    Slackabot.WebsocketClient.send_event(sock, url)
+    # IO.inspect url
+    # socket =  Socket.Web.connect! url
+    # socket |> Socket.Web.recv!
+  end
+
+
+  def connect("wss://" <> url) do
+    IO.inspect url
+    socket =  Socket.Web.connect! url, 443
+    socket |> Socket.Web.recv!
   end
 end
