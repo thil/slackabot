@@ -5,7 +5,6 @@ defmodule Slackabot.Test do
     :crypto.start
     :ssl.start
     {:ok, sock} = Slackabot.WebsocketClient.start_link(self, url)
-    Slackabot.WebsocketClient.send_event(sock, url)
     # IO.inspect url
     # socket =  Socket.Web.connect! url
     # socket |> Socket.Web.recv!

@@ -28,10 +28,12 @@ defmodule Slackabot.WebsocketClient do
   forwards message to client sender process
   """
   def websocket_handle({:text, msg}, _conn_state, state) do
-    temp = :jsx.decode(msg)["type"]
-    IO.inspect temp
-    send state.sender, temp
-    # send state.sender, Phoenix.Transports.JSONSerializer.decode!(msg, :text)
+    # temp = :jsx.decode(msg)["type"]
+    IO.inspect msg
+    {:ok, state}
+  end
+
+  def websocket_handle({:ping, _}, _conn_state, state) do
     {:ok, state}
   end
 
