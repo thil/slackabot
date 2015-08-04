@@ -3,7 +3,7 @@ defmodule Slackabot.Slack do
   use HTTPotion.Base
 
   def connect_url do
-    get("api/rtm.start").body["url"]
+    get("rtm.start").body["url"]
   end
 
   def process_url(url) do
@@ -11,6 +11,22 @@ defmodule Slackabot.Slack do
   end
 
   def process_response_body(body) do
-    body |> IO.iodata_to_binary |> :jsx.decode
+    body 
+    |> Poison.decode!
+  end
+
+  def msg(channel, post) do
+    body = %{
+      username: "slackabot",
+      channel: channel,
+      text: post,
+      token: api_token
+    } |> Poison.encode!
+
+    post("chat.postMessage", [body: body])
+
+    # url = process_url("chat.postMessage") <> "&channel=#{channel}&text=#{post}"
+    # IO.inspect url
+    # HTTPotion.post(url)
   end
 end

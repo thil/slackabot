@@ -1,6 +1,6 @@
 defmodule Slackabot.Settings do
   def slack_api do
-    "https://slack.com/"
+    "https://slack.com/api/"
   end
 
   def api_token do

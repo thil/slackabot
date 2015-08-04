@@ -28,7 +28,7 @@ defmodule Slackabot.Mixfile do
     [
       {:ibrowse, github: "cmullaparthi/ibrowse", tag: "v4.1.2"},
       {:httpotion, "~> 2.1.0"},
-      {:jsx, "~> 2.6.2"},
+      {:poison, "~> 1.4.0"},
       {:websocket_client, github: "jeremyong/websocket_client"}
     ]
   end
