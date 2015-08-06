@@ -1,24 +1,22 @@
 defmodule Slackabot.Test do
+  alias Slackabot.Slack
+  alias Slackabot.WebsocketClient
+
   def test do
-    url = Slackabot.Slack.connect_url
-    IO.inspect url
-    :crypto.start
-    :ssl.start
-    {:ok, sock} = Slackabot.WebsocketClient.start_link(self, url)
+    {:ok, sock} = WebsocketClient.start_link(self, Slack.connect_url)
 
     listen(sock)
   end
 
   def listen(sock) do
     receive do
-      %{"channel" => channel, "text" => text} -> Slackabot.WebsocketClient.send_event(sock, "http://thecatapi.com/api/images/get?format=src&type=gif", channel)
+      %{"channel" => channel, "text" => "boombot " <> msg} -> handle(sock, channel, msg)
+      _ ->
     end
     listen(sock)
   end
 
-  def connect("wss://" <> url) do
-    IO.inspect url
-    socket =  Socket.Web.connect! url, 443
-    socket |> Socket.Web.recv!
+  def handle(sock, channel, text) do
+    Task.start Slackabot.AwYiss, :handle, [sock, channel, text]
   end
 end
