@@ -5,11 +5,16 @@ defmodule Slackabot.Test do
     :crypto.start
     :ssl.start
     {:ok, sock} = Slackabot.WebsocketClient.start_link(self, url)
-    # IO.inspect url
-    # socket =  Socket.Web.connect! url
-    # socket |> Socket.Web.recv!
+
+    listen(sock)
   end
 
+  def listen(sock) do
+    receive do
+      %{"channel" => channel, "text" => text} -> Slackabot.WebsocketClient.send_event(sock, "http://thecatapi.com/api/images/get?format=src&type=gif", channel)
+    end
+    listen(sock)
+  end
 
   def connect("wss://" <> url) do
     IO.inspect url

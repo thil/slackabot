@@ -28,16 +28,29 @@ defmodule Slackabot.WebsocketClient do
   forwards message to client sender process
   """
   def websocket_handle({:text, msg}, _conn_state, state) do
+    IO.inspect msg
     post = Poison.decode!(msg)
-    IO.inspect post
     if post["type"] == "message" do
-      Slackabot.Slack.msg(post["channel"], "hi there")
+      handle_msg(state, post, post["text"])
     end
     {:ok, state}
   end
 
+  def handle_msg(state, post, "boombot" <> msg) do
+    send state.sender, post
+  end
+
+  def handle_msg(state, post, msg) do
+  end
+
   def websocket_handle({:ping, _}, _conn_state, state) do
     {:ok, state}
+  end
+
+
+  def websocket_info(a, _conn_state, state) do
+    IO.inspect a
+    {:reply, {:text, a}, state}
   end
 
   @doc """
@@ -59,23 +72,19 @@ defmodule Slackabot.WebsocketClient do
   @doc """
   Sends an event to the WebSocket server per the Message protocol
   """
-  def send_event(server_pid, topic, event, msg) do
-    send server_pid, {:send, %{topic: topic, event: event, payload: msg}}
+  def send_event(server_pid, msg, channel) do
+    {ms, s, _} = :os.timestamp
+    timestamp = (ms * 1_000_000 + s)
+    body = %{
+      id: timestamp,
+      type: "message",
+      channel: channel,
+      text: msg,
+    } |> Poison.encode!
+
+    send server_pid, body
   end
 
-  @doc """
-  Sends join event to the WebSocket server per the Message protocol
-  """
-  def join(server_pid, topic, msg) do
-    send_event(server_pid, topic, "phx_join", msg)
-  end
-
-  @doc """
-  Sends leave event to the WebSocket server per the Message protocol
-  """
-  def leave(server_pid, topic, msg) do
-    send_event(server_pid, topic, "phx_leave", msg)
-  end
 
   defp json!(map), do: JSON.encode!(map)
 end
