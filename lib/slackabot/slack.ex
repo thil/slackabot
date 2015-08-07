@@ -1,9 +1,20 @@
 defmodule Slackabot.Slack do
+  alias Slackabot.Sockets.Web
+  alias Slackabot.MessageHandler
   import Slackabot.Settings
   use HTTPotion.Base
 
-  def connect_url do
-    get("rtm.start").body["url"]
+  def connect do
+    {:ok, sock} = Web.start_link(self, connect_url)
+
+    listen(sock)
+  end
+
+  def msg(message) do
+    {ms, s, _} = :os.timestamp
+    respond = Enum.into %{message | sock: nil}, %{type: "message", id: (ms * 1_000_000 + s)}
+
+    send message.sock, respond
   end
 
   def process_url(url) do
@@ -11,22 +22,19 @@ defmodule Slackabot.Slack do
   end
 
   def process_response_body(body) do
-    body 
-    |> Poison.decode!
+    body |> Poison.decode!
   end
 
-  def msg(channel, post) do
-    body = %{
-      username: "slackabot",
-      channel: channel,
-      text: post,
-      token: api_token
-    } |> Poison.encode!
+  defp listen(sock) do
+    receive do
+      %{"channel" => channel, "text" => text} ->
+        %{sock: sock, channel: channel, text: text} |> MessageHandler.handle
+      _ ->
+    end
+    listen(sock)
+  end
 
-    post("chat.postMessage", [body: body])
-
-    # url = process_url("chat.postMessage") <> "&channel=#{channel}&text=#{post}"
-    # IO.inspect url
-    # HTTPotion.post(url)
+  defp connect_url do
+    get("rtm.start").body["url"]
   end
 end

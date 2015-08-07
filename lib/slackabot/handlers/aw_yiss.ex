@@ -1,9 +1,8 @@
-defmodule Slackabot.AwYiss do
-  alias Slackabot.WebsocketClient
+defmodule Slackabot.Handlers.AwYiss do
+  alias Slackabot.Slack
 
-  def handle(sock, channel, "aw yiss" <> msg) do
-    url = generate(msg)
-    WebsocketClient.send_event(sock, url, channel)
+  def handle(message = %{text: "aw yiss " <> msg}) do
+    Slack.msg(%{message | text: generate(msg)})
   end
 
   def generate(msg) do

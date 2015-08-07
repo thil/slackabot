@@ -1,4 +1,4 @@
-defmodule Slackabot.WebsocketClient do
+defmodule Slackabot.Sockets.Web do
   def start_link(sender, url, headers \\ []) do
     :crypto.start
     :ssl.start
@@ -24,18 +24,6 @@ defmodule Slackabot.WebsocketClient do
 
   def websocket_terminate(_reason, _conn_state, _state) do
     :ok
-  end
-
-  def send_event(server_pid, msg, channel) do
-    {ms, s, _} = :os.timestamp
-    body = %{
-      id:      (ms * 1_000_000 + s),
-      type:    "message",
-      channel: channel,
-      text:    msg,
-    }
-
-    send server_pid, body
   end
 
   def close(socket) do
