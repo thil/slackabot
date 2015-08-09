@@ -1,9 +1,13 @@
 defmodule Slackabot.MessageHandler do
   @handlers [
-    Slackabot.Handlers.AwYiss
+    %{start: "aw yiss ", handler: Slackabot.Handlers.AwYiss}
   ]
 
-  def handle(message) do
-    Enum.each @handlers, fn(handler) -> Task.start(handler, :handle, [message]) end
+  Enum.each @handlers, fn(%{start: start, handler: handle}) ->
+    def handle(message = %{text: unquote(start) <> text}) do
+      Task.start(unquote(handle), :handle, [message, text])
+    end
   end
+
+  def handle(message), do: IO.puts "Unknown Command"
 end
