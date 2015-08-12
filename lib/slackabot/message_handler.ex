@@ -10,5 +10,5 @@ defmodule Slackabot.MessageHandler do
     end
   end
 
-  def handle(message), do: IO.puts "Unknown Command"
+  def handle(_), do: IO.puts "Unknown Command"
 end
