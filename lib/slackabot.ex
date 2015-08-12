@@ -1,7 +1,7 @@
 defmodule Slackabot do
   alias Slackabot.Slack
 
-  def run do
+  def start(_type, _args) do
     Slack.connect
   end
 end
