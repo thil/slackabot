@@ -1,1 +1,1 @@
-web: MIX_ENV=prod mix --no-halt
+worker: MIX_ENV=prod mix --no-halt
