@@ -1,7 +1,7 @@
-defmodule Slackabot.Handlers.Funcage do
+defmodule Slackabot.Actions.Funcage do
   alias Slackabot.Slack
 
-  def handle(message, _) do
+  def act(message, _) do
     Slack.msg(%{message | text: image_url})
   end
 

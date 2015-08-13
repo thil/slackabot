@@ -28,7 +28,7 @@ defmodule Slackabot.Slack do
   defp listen(sock) do
     receive do
       %{"channel" => channel, "text" => text} ->
-        %{sock: sock, channel: channel, text: text} |> MessageHandler.handle
+        %{sock: sock, channel: channel, text: text} |> MessageHandler.act
       _ ->
     end
     listen(sock)

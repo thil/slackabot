@@ -1,15 +1,15 @@
 defmodule Slackabot.MessageHandler do
-  @handlers [
-    %{start: "aw yiss ", handler: Slackabot.Handlers.AwYiss},
-    %{start: "funcage", handler: Slackabot.Handlers.Funcage},
-    %{start: "wtffact", handler: Slackabot.Handlers.WtfFact}
+  @actions [
+    %{start: "aw yiss ", action: Slackabot.Actions.AwYiss},
+    %{start: "funcage",  action: Slackabot.Actions.Funcage},
+    %{start: "wtffact",  action: Slackabot.Actions.WtfFact}
   ]
 
-  Enum.each @handlers, fn(%{start: start, handler: handle}) ->
-    def handle(message = %{text: unquote(start) <> text}) do
-      Task.start(unquote(handle), :handle, [message, text])
+  Enum.each @actions, fn(%{start: start, action: action}) ->
+    def act(message = %{text: unquote(start) <> text}) do
+      Task.start(unquote(action), :act, [message, text])
     end
   end
 
-  def handle(_), do: IO.puts "Unknown Command"
+  def act(_), do: IO.puts "Unknown Command"
 end
