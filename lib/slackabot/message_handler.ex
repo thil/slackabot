@@ -1,7 +1,8 @@
 defmodule Slackabot.MessageHandler do
   @handlers [
     %{start: "aw yiss ", handler: Slackabot.Handlers.AwYiss},
-    %{start: "funcage", handler: Slackabot.Handlers.Funcage}
+    %{start: "funcage", handler: Slackabot.Handlers.Funcage},
+    %{start: "wtffact", handler: Slackabot.Handlers.WtfFact}
   ]
 
   Enum.each @handlers, fn(%{start: start, handler: handle}) ->
