@@ -19,7 +19,7 @@ TODO: Write usage instructions
 
 ## Credits
 
-* [Contributors](https://github.com/username/sw-name/graphs/contributors)
+* [Contributors](https://github.com/thil/slackabot/graphs/contributors)
 
 ## License
 
