@@ -2,7 +2,7 @@ defmodule Slackabot.Actions.AwYiss do
   alias Slackabot.Slack
 
   def act(message, text) do
-    Slack.msg(%{message | text: generate(text)})
+    Slack.msg(message.channel, generate(text))
   end
 
   def generate(msg) do

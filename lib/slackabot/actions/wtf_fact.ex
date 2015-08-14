@@ -5,7 +5,7 @@ defmodule Slackabot.Actions.WtfFact do
   @base_uri "http://wtffunfact.com/page/"
 
   def act(message, _) do
-    Slack.msg(%{message | text: image_url})
+    Slack.msg(message.channel, image_url)
   end
 
   def image_url do
