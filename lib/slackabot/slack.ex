@@ -1,40 +1,33 @@
 defmodule Slackabot.Slack do
+  use GenServer
+
   alias Slackabot.Sockets.Web
   alias Slackabot.MessageHandler
-  import Slackabot.Settings
-  use HTTPotion.Base
+  alias Slackabot.Client
 
   def connect do
-    {:ok, sock} = Web.start_link(self, connect_url)
-
-    listen(sock)
+    GenServer.start_link(__MODULE__, Client.connect_url, name: __MODULE__)
   end
 
-  def msg(message) do
+  def init(slack_url) do
+    Web.start_link(slack_url, __MODULE__)
+  end
+
+  def handle(message = %{type: "message"}) do
+    MessageHandler.act(message)
+  end
+
+  def handle(m), do: IO.inspect m
+
+  def msg(channel, text) do
     {ms, s, _} = :os.timestamp
-    respond = Enum.into %{message | sock: nil}, %{type: "message", id: (ms * 1_000_000 + s)}
+    message = %{type: "message", id: (ms * 1_000_000 + s), channel: channel, text: text}
 
-    send message.sock, respond
+    GenServer.cast __MODULE__, {:msg, message}
   end
 
-  def process_url(url) do
-    slack_api <> url <> "?token=#{api_token}"
-  end
-
-  def process_response_body(body) do
-    body |> Poison.decode!
-  end
-
-  defp listen(sock) do
-    receive do
-      %{"channel" => channel, "text" => text} ->
-        %{sock: sock, channel: channel, text: text} |> MessageHandler.act
-      _ ->
-    end
-    listen(sock)
-  end
-
-  defp connect_url do
-    get("rtm.start").body["url"]
+  def handle_cast({:msg, message}, socket) do
+    Web.msg(socket, message)
+    {:noreply, socket}
   end
 end
