@@ -12,7 +12,7 @@ defmodule Slackabot.Mixfile do
 
   def application do
     [
-      applications: [:httpotion, :logger],
+      applications: [:httpotion, :logger, :postgrex, :ecto],
       mod: {Slackabot, []},
       registered: [Slackabot.Slack]
     ]
@@ -23,7 +23,9 @@ defmodule Slackabot.Mixfile do
       {:ibrowse, github: "cmullaparthi/ibrowse", tag: "v4.1.2"},
       {:httpotion, "~> 2.1.0"},
       {:poison, "~> 1.4.0"},
-      {:websocket_client, github: "jeremyong/websocket_client"}
+      {:websocket_client, github: "jeremyong/websocket_client"},
+      {:postgrex, ">= 0.0.0"},
+      {:ecto, "~> 0.14.3"}
     ]
   end
 end

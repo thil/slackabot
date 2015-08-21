@@ -14,4 +14,9 @@ defmodule Slackabot.Client do
   def process_response_body(body) do
     body |> Poison.decode!
   end
+
+  def get_user_name(user_id) do
+    %{status_code: 200, body: body} = HTTPotion.get("#{process_url("users.info")}&user=#{user_id}")
+    process_response_body(body)["user"]["name"]
+  end
 end
