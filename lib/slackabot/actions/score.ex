@@ -15,7 +15,7 @@ defmodule Slackabot.Actions.Score do
   end
 
   defp score_desc(score) do
-    "#{score.target} #{score.value}"
+    "#{score.target} score: #{score.value}"
   end
 
   defp create_or_update_score(target, operator)
