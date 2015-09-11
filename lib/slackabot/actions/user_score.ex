@@ -4,6 +4,11 @@ defmodule Slackabot.Actions.UserScore do
 
   def act(message, text) do
     [_, user_id, rest] = Regex.run(~r/(.*)>(.*)/, text)
+
+    if user_id == message[:user] do
+      rest = "-- for being a cheater"
+    end
+
     Score.act(message, get_user_name(user_id) <> rest)
   end
 
