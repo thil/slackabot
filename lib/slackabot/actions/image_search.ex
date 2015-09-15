@@ -1,5 +1,4 @@
 defmodule Slackabot.Actions.ImageSearch do
-  alias Slackabot.Slack
   alias Utility.Random
 
   def act(text) do

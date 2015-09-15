@@ -1,8 +1,6 @@
 defmodule Slackabot.Actions.Funcage do
-  alias Slackabot.Slack
-
-  def act(message, _) do
-    Slack.msg(message.channel, image_url)
+  def act(_) do
+    image_url
   end
 
   def image_url do
