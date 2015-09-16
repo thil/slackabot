@@ -1,11 +1,10 @@
 defmodule Slackabot.Actions.WtfFact do
-  alias Slackabot.Slack
   alias Utility.Random
 
   @base_uri "http://wtffunfact.com/page/"
 
-  def act(message, _) do
-    Slack.msg(message.channel, image_url)
+  def act(_) do
+    image_url
   end
 
   def image_url do

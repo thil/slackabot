@@ -19,7 +19,9 @@ defmodule Slackabot.Sockets.Web do
   end
 
   def websocket_info(msg, _conn_state, state) do
-    {:reply, {:text, Poison.encode!(msg)}, state}
+    {ms, s, _} = :os.timestamp
+    message = Dict.merge msg, %{type: "message", id: (ms * 1_000_000 + s)}
+    {:reply, {:text, Poison.encode!(message)}, state}
   end
 
   def websocket_terminate(_reason, _conn_state, _state) do
@@ -28,9 +30,5 @@ defmodule Slackabot.Sockets.Web do
 
   def close(socket) do
     send(socket, :close)
-  end
-
-  def msg(socket, message) do
-    send socket, message
   end
 end
