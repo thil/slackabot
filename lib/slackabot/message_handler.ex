@@ -9,7 +9,16 @@ defmodule Slackabot.MessageHandler do
 
   Enum.each @actions, fn(%{start: start, action: action}) ->
     def act(message = %{channel: channel, text: unquote(start) <> text}, slack) do
-      send slack, %{text: unquote(action).act(text, message), channel: channel}
+      respond(slack, channel, unquote(action).act(text, message))
     end
+  end
+
+  defp respond(slack, channel, [msg | tail]) do
+    send slack, %{text: msg, channel: channel }
+    respond(slack, channel, tail)
+  end
+
+  defp respond(slack, channel, msg) do
+    send slack, %{text: msg, channel: channel }
   end
 end
