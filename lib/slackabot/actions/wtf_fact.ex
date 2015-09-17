@@ -3,7 +3,7 @@ defmodule Slackabot.Actions.WtfFact do
 
   @base_uri "http://wtffunfact.com/page/"
 
-  def act(_) do
+  def act(_, _) do
     image_url
   end
 

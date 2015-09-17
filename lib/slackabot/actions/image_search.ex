@@ -1,7 +1,7 @@
 defmodule Slackabot.Actions.ImageSearch do
   alias Utility.Random
 
-  def act(%{text: text}) do
+  def act(text, _) do
     image_url(text)
   end
 

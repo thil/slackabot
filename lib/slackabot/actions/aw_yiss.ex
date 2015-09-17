@@ -1,5 +1,5 @@
 defmodule Slackabot.Actions.AwYiss do
-  def act(%{text: text}) do
+  def act(text, _) do
     generate(text)
   end
 

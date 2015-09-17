@@ -1,5 +1,5 @@
 defmodule Slackabot.Actions.Funcage do
-  def act(_) do
+  def act(_, _) do
     image_url
   end
 
