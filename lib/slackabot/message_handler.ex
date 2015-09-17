@@ -4,9 +4,9 @@ defmodule Slackabot.MessageHandler do
     %{start: "funcage",              action: Slackabot.Actions.Funcage},
     %{start: "wtffact",              action: Slackabot.Actions.WtfFact},
     %{start: "boombot image me ",    action: Slackabot.Actions.ImageSearch},
-    %{start: "boombot animate me ",  action: Slackabot.Actions.ImageSearch},
     %{start: "@",                    action: Slackabot.Actions.Score},
-    %{start: "<@",                   action: Slackabot.Actions.UserScore}
+    %{start: "<@",                   action: Slackabot.Actions.UserScore},
+    %{start: "boombot bomb ",        action: Slackabot.Actions.Bomb}
   ]
 
   Enum.each @actions, fn(%{start: start, action: action}) ->

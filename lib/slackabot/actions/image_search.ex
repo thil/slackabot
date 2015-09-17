@@ -19,12 +19,8 @@ defmodule Slackabot.Actions.ImageSearch do
   end
 
   defp params(query) do
-    %{ q: query, v: "1.0" } |> URI.encode_query
+    %{ q: query, v: "1.0", rsz: 8 } |> URI.encode_query
   end
-
-  # defp params("boombot animate me" <> _, query) do
-  #   %{ imgtype: "animated", q: query, v: "1.0" } |> URI.encode_query
-  # end
 
   defp base_uri, do: "https://ajax.googleapis.com/ajax/services/search/images?"
 
