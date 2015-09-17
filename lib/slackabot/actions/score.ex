@@ -5,9 +5,8 @@ defmodule Slackabot.Actions.Score do
   alias Slackabot.Models.Score
   alias Slackabot.Models.Reason
 
-  def act(message, text) do
-    desc = process_text(text)
-    Slack.msg(message.channel, desc)
+  def act(text, _) do
+    text |> process_text
   end
 
   defp score_desc({score, reason}) do
