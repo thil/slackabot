@@ -21,7 +21,5 @@ TODO: Write usage instructions
 
 * [Contributors](https://github.com/thil/slackabot/graphs/contributors)
 
-## License
 
-TODO: Write license
 
